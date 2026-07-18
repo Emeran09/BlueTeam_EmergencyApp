@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SOS Locator</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Selector de Radio (Flotante) -->
+    <div id="radius-control" class="floating-control">
+        <label for="radius-select">Radius:</label>
+        <select id="radius-select">
+            <option value="1000">1 km</option>
+            <option value="3000" selected>3 km</option>
+            <option value="5000">5 km</option>
+            <option value="10000">10 km</option>
+            <option value="25000">25 km</option>
+            <option value="50000">50 km</option>
+        </select>
+    </div>
+
+    <!-- Contenedor del Mapa -->
+    <div id="map"></div>
+
+    <!-- Buscador manual (Oculto por defecto) -->
+    <div id="search-box">
+        <input type="text" id="manual-location" placeholder="Buscar ciudad o calle...">
+        <button id="btn-search">🔍</button>
+    </div>
+
+    <!-- Interfaz Agnóstica: Botonera inferior -->
+    <nav class="bottom-nav">
+        <!-- El 112 usa Deep Link directo -->
+        <a href="tel:112" class="nav-btn alert-btn" title="Llamar 112">🆘</a>
+        
+        <!-- Contenedor scrolleable para el resto de servicios -->
+        <div class="services-container">
+            <button class="nav-btn filter-btn" data-type="hospitals" title="Hospitales">🚑</button>
+            <button class="nav-btn filter-btn" data-type="police" title="Policía">🚓</button>
+            <button class="nav-btn filter-btn" data-type="firefighters" title="Bomberos">🔥</button>
+            <button class="nav-btn filter-btn" data-type="clinics" title="Ambulatorios/CAP">🏥</button>
+            <button class="nav-btn filter-btn" data-type="pharmacies" title="Farmacias">💊</button>
+            <button class="nav-btn filter-btn" data-type="dentists" title="Dentista">🦷</button>
+            <button class="nav-btn filter-btn" data-type="garages" title="Grúas y Talleres">🔧</button>
+            <button class="nav-btn filter-btn" data-type="veterinarians" title="Veterinario">🐕</button>
+            <button class="nav-btn filter-btn" data-type="animal_shelters" title="Protectoras de animales">🏠</button>
+        </div>
+    </nav>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Nuestro JS Principal como módulo -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 // js/main.js
-import { initMap, drawMarkers } from './map.js';
+import { initMap, drawMarkers, updateMapCenter } from './map.js';
 import { fetchNearbyServices } from './api.js';
 
 let userLat, userLon;

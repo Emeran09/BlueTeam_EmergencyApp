@@ -31,7 +31,7 @@ export async function fetchNearbyServices(lat, lon, type, radiusInMeters = 3000)
 
     // Overpass QL Query
     const query = `
-        [out:json][timeout:25];
+        [out:json][timeout:60];
         (
           node${tag}(around:${radiusInMeters},${lat},${lon});
           way${tag}(around:${radiusInMeters},${lat},${lon});

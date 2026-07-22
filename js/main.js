@@ -1,5 +1,5 @@
 // js/main.js
-import { initMap, drawMarkers, updateMapCenter } from './map.js';
+import { initMap, drawMarkers, updateMapCenter, drawRadiusCircle } from './map.js';
 import { fetchNearbyServices } from './api.js';
 
 let userLat, userLon;
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGeolocation();
     setupButtons();
     setupRadiusSelector();
-    setupSearchBox(); // <-- Añadimos la llamada a la nueva función
+    setupSearchBox();
 });
 
 function initGeolocation() {
@@ -40,6 +40,11 @@ function setupRadiusSelector() {
     radiusSelect.addEventListener('change', (e) => {
         // Parse the string value from the select to an integer
         currentSearchRadius = parseInt(e.target.value, 10);
+
+        // Dibuja el círculo inmediatamente al cambiar el selector
+        if (userLat && userLon) {
+            drawRadiusCircle(userLat, userLon, currentSearchRadius);
+        }
         
         // UX Magic: Automatically re-fetch if a category was already selected
         if (lastSelectedType && userLat && userLon) {
@@ -123,6 +128,9 @@ async function fetchAndDrawServices(type, buttonElement) {
     if (buttonElement) {
         buttonElement.style.opacity = '0.5';
     }
+
+    // Asegurarnos de que el círculo esté dibujado
+    drawRadiusCircle(userLat, userLon, currentSearchRadius);
     
     try {
         const places = await fetchNearbyServices(userLat, userLon, type, currentSearchRadius);

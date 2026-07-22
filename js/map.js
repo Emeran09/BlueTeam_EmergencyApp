@@ -3,6 +3,16 @@
 let map;
 let currentMarkers = [];
 let userMarker; 
+let radiusCircle;
+
+const redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
 export function initMap(lat, lon) {
     map = L.map('map').setView([lat, lon], 14);
@@ -29,6 +39,22 @@ export function updateMapCenter(lat, lon) {
     userMarker.bindPopup("<b>Manual Location</b>").openPopup();
 }
 
+export function drawRadiusCircle(lat, lon, radiusInMeters) {
+    // Si ya existía un círculo de una búsqueda anterior, lo borramos
+    if (radiusCircle) {
+        map.removeLayer(radiusCircle);
+    }
+    
+    // Dibujamos el nuevo círculo (rojo muy transparente)
+    radiusCircle = L.circle([lat, lon], {
+        color: '#f03',
+        fillColor: '#f03',
+        fillOpacity: 0.05,
+        weight: 2,
+        radius: radiusInMeters
+    }).addTo(map);
+}
+
 export function drawMarkers(places) {
     // 1. Limpiar siempre los marcadores anteriores
     currentMarkers.forEach(marker => map.removeLayer(marker));
@@ -47,7 +73,8 @@ export function drawMarkers(places) {
         
         const name = place.tags && place.tags.name ? place.tags.name : 'Unnamed service';
 
-        const marker = L.marker([lat, lon]).addTo(map)
+        // Le pasamos el icono rojo al crear el marcador
+        const marker = L.marker([lat, lon], { icon: redIcon }).addTo(map)
             .bindPopup(`<b>${name}</b>`);
             
         currentMarkers.push(marker);
